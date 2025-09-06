@@ -1,3 +1,5 @@
+import { ClerkProvider } from '@clerk/nextjs';
+import UserNav from './UserNav';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -23,12 +25,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html suppressHydrationWarning>
+        <body className="min-h-screen bg-background text-foreground">
+          <header className="border-b">
+            <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
+              <div className="font-semibold">Image & Influence • Learning</div>
+              {/* Ajoute le bouton utilisateur Clerk */}
+              <UserNav />
+            </div>
+          </header>
+          <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
